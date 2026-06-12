@@ -2,10 +2,15 @@
 
 Topic: **Von Neumann Architecture vs. Processing-in-Memory (PIM)**
 
-## How to use on Overleaf (latex.sjtu.edu.cn)
-1. New Project → **Upload Project** → select `Group17_Project3_Overleaf.zip`.
-2. Menu → **Compiler = pdfLaTeX**, **Main document = `CS2305_submission.tex`**.
-3. Recompile. Bibliography is handled automatically (bibtex).
+## Quickest start (Overleaf)
+1. Download **`Group17_Project3_Overleaf.zip`** from this repo (it is flat — files
+   sit at the zip root, no wrapper folder).
+2. Overleaf → New Project → **Upload Project** → select that zip.
+3. Menu → **Compiler = pdfLaTeX**, **Main document = `CS2305_submission.tex`** →
+   Recompile. Bibliography is handled automatically (bibtex).
+
+> Tip: do **not** use GitHub's green *Code → Download ZIP*; that wraps everything
+> in a sub-folder. Use the `Group17_Project3_Overleaf.zip` above instead.
 
 ## Files
 | File | Role |
