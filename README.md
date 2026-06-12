@@ -21,14 +21,6 @@
 | `Group17_Project3_Overleaf.zip` | 打包好的、可直传 Overleaf 的扁平压缩包 |
 | `CS2305_submission.sty/.bst`、`natbib.sty`、`fancyhdr.sty`、`math_commands.tex` | 模板支持文件（不要改） |
 
-## 分工
-| | 姓名 | 负责内容 |
-|---|------|----------|
-| P1 | 樊思彤 | Introduction + 冯·诺依曼定义 + PPT1 |
-| P2 | 张潇予 | PIM 定义 + 两者关系 |
-| P3 | 陈渔 | 应用场景 + optional 案例 + 附录 |
-| P4 | 尤怡柠 | 结论与思考 + PPT2 + 演讲 |
-
 ## 给组员的提醒
 - 把 `.tex` 里每个 `\textit{[P… outline …]}` 占位段替换成正式英文正文；各节字数尽量贴近预算（见 `.tex` 顶部注释）。
 - **正文（Abstract + 各章节，不含 References 与 Appendix）最终须 ≤ 2000 词。**
