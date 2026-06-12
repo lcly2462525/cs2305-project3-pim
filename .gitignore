@@ -1,0 +1,19 @@
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+
+# Compiled report (regenerated from source)
+CS2305_submission.pdf
+
+# Figure build by-product (PDF asset is kept; SVG is intermediate)
+application_scenarios.svg
+
+# OS
+.DS_Store

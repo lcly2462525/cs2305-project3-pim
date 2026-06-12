@@ -1,0 +1,281 @@
+\documentclass{article} % For LaTeX2e
+\usepackage{CS2305_submission,times}
+
+% Optional math commands from https://github.com/goodfeli/dlbook_notation.
+\input{math_commands.tex}
+
+\usepackage{hyperref}
+\usepackage{url}
+\usepackage{graphicx}   % for \includegraphics (application figure)
+\usepackage{booktabs}   % for the comparison table
+
+% =====================================================================
+%  CS2305 Project 3 — Group 17
+%  Topic: Von Neumann Architecture vs. Processing-in-Memory (PIM)
+%  Structure follows the shared group outline so every member's section
+%  slots in consistently.
+%  Word budget: main body (Abstract + Sec.1-6, EXCLUDING refs/appendix)
+%               must stay <= 500 * 4 = 2000 words.  Per-section budget:
+%    Intro ~180 | Definitions ~550 | Relationship ~350 |
+%    Applications ~520 | Reflections ~350 | Optional ~130   (~2080 cap, trim)
+%  Ownership is marked with % [P1]/[P2]/[P3]/[P4] before each block.
+%    P1 = Fan Sitong  : Intro + Von Neumann definition (1.1) + PPT1
+%    P2 = Zhang Xiaoyu: PIM definition (1.2) + Relationship (Sec.3)
+%    P3 = Chen Yu     : Applications (Sec.4) + Optional case study (Sec.6) + Appendix
+%    P4 = You Yining  : Reflections & Conclusions (Sec.5) + PPT2 + talk
+%  Placeholder blocks are in \textit{[...]} — replace with real prose.
+% =====================================================================
+
+\title{Von Neumann Architecture vs. Processing-in-Memory:\\ Breaking the Memory Wall}
+
+\author{
+Fan Sitong \\ Student ID: XXXXXXXX \\ \texttt{x@sjtu.edu.cn}
+\And
+Zhang Xiaoyu \\ Student ID: XXXXXXXX \\ \texttt{x@sjtu.edu.cn}
+\AND
+Chen Yu \\ Student ID: XXXXXXXX \\ \texttt{x@sjtu.edu.cn}
+\And
+You Yining \\ Student ID: XXXXXXXX \\ \texttt{x@sjtu.edu.cn}
+}
+
+\newcommand{\fix}{\marginpar{FIX}}
+\newcommand{\new}{\marginpar{NEW}}
+
+\begin{document}
+
+\maketitle
+
+% [ALL] Abstract — budget ~110 words. Single paragraph.
+\begin{abstract}
+\textit{[Abstract placeholder, written collectively once sections are final.
+One paragraph (~110 words): state the memory-wall problem, contrast the
+classical Von Neumann model (separated processing and memory) with
+Processing-in-Memory (computing where data lives), summarise their
+relationship as an evolutionary response to the bandwidth and energy
+bottleneck, and preview the application and outlook findings.]}
+\end{abstract}
+
+% =====================================================================
+% [P1] Introduction — budget ~180 words
+% =====================================================================
+\section{Introduction}
+\label{sec:intro}
+\textit{[P1 outline (~180 words): motivate with the explosion of compute
+demand (AI, big data, HPC); state the core ``memory wall'' problem
+\citep{wulf1995memory,horowitz2014energy}; introduce the two paradigms ---
+the classical Von Neumann architecture and the emerging Processing-in-Memory
+(PIM); state the paper's goal: compare the two, then analyse their
+relationship, applications, and future trends.]}
+
+% =====================================================================
+% Section: Basic Definitions
+% =====================================================================
+\section{Basic Definitions}
+\label{sec:def}
+
+% [P1] Von Neumann definition — budget ~270 words
+\subsection{Von Neumann Architecture}
+\label{sec:vn}
+\textit{[P1 outline (~270 words): define the stored-program concept; core
+components --- CPU (ALU + control unit), memory, I/O, and the shared
+data/address/control bus. Working mechanism: instructions and data share one
+memory and one bus. Strengths: generality, ease of programming. Key problem:
+the Von Neumann bottleneck --- throughput capped by bus/memory bandwidth, only
+mitigated (not removed) by the cache hierarchy.]}
+
+% [P2] PIM definition — budget ~280 words
+\subsection{Processing-in-Memory (PIM)}
+\label{sec:pim}
+\textit{[P2 outline (~280 words): define PIM --- embedding or placing compute
+capability inside or next to memory \citep{sebastian2020memory,mutlu2021primer}.
+Taxonomy: near-memory computing vs.\ in-memory computing. Core idea: cut data
+movement. Implementations: HBM + logic layer; ReRAM-/SRAM-based compute
+\citep{ielmini2018inmemory}. Strengths: high bandwidth, low energy. Challenges:
+complex programming model, limited generality.]}
+
+% =====================================================================
+% [P2] Relationship — budget ~350 words
+% =====================================================================
+\section{Relationship Between Them}
+\label{sec:rel}
+
+% [P2] 3.1
+\subsection{Evolutionary Perspective}
+\textit{[P2 outline: PIM is a complement/extension to the Von Neumann model,
+not a full replacement; driven by the memory wall and data-intensive
+applications.]}
+
+% [P2] 3.2 — comparison table.  (Draft table below provided by P3; P2 owns
+%        this section and may edit/trim it.)
+\subsection{Key Differences}
+\textit{[P2 outline: contrast compute-centric (Von Neumann) vs.\ data-centric
+(PIM) along data movement, location of computation, energy structure, and
+programmability. A ready-to-use draft table follows.]}
+
+\begin{table}[t]
+\caption{Compute-centric (Von Neumann) vs.\ data-centric (PIM) paradigms.}
+\label{tab:compare}
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+\textbf{Dimension} & \textbf{Von Neumann} & \textbf{Processing-in-Memory} \\
+\midrule
+Computation location & In a separate CPU      & In/near the memory array \\
+Data movement        & Operands cross the bus & Minimised; compute at data \\
+Energy driver        & Off-chip memory access & In-/near-array operation \\
+Bandwidth            & Bus/pin limited        & Massive internal parallelism \\
+Programmability      & General, mature        & Specialised, emerging \\
+Best workloads       & Control-intensive      & Data-intensive (AI, graphs) \\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+
+% [P2] 3.3
+\subsection{Hybrid Architectures}
+\textit{[P2 outline: modern trend is CPU + PIM cooperation (e.g.\ an AI
+accelerator coupled with a memory stack), keeping a Von Neumann host while
+offloading data-bound kernels.]}
+
+% =====================================================================
+% [P3] Applications and Problems Solved — budget ~520 words  *** REAL ***
+% =====================================================================
+\section{Application Scenarios and Problems Solved}
+\label{sec:app}
+
+\subsection{Problems Addressed}
+The central problem is the \emph{memory wall}: for decades processor
+throughput has grown faster than memory bandwidth, so performance is
+increasingly limited by how fast operands reach the processor rather than by
+arithmetic itself~\citep{wulf1995memory}. The cost is also energetic. In modern
+chips an arithmetic operation costs only a few picojoules, whereas fetching its
+operands from off-chip DRAM costs two to three orders of magnitude more, so in
+data-intensive systems data movement---not computation---dominates energy and
+latency~\citep{horowitz2014energy}. Bus and pin limits compound the effect. PIM
+attacks these problems directly by computing where data already lives, removing
+much of the traffic the bus and cache hierarchy struggle to
+sustain~\citep{sebastian2020memory,mutlu2021primer}.
+
+\subsection{Applications of the Von Neumann Architecture}
+The classical model remains the right choice for general-purpose and
+control-intensive workloads: operating systems, compilers, software
+development, and branch-heavy application or transaction logic. Such
+control-flow-dominant tasks reuse little data per access and rely on the
+model's flexibility and mature ecosystem, so its bandwidth limitation is rarely
+the binding constraint. Its weakness appears only once a workload becomes
+data-movement-bound.
+
+\subsection{Applications of PIM}
+PIM targets exactly those data-intensive workloads. The flagship case is
+AI/deep-learning inference, dominated by matrix--vector multiplication: in a
+resistive (ReRAM) crossbar, multiply--accumulate is performed in place by Ohm's
+and Kirchhoff's laws, so the weights never move; accelerators such as
+ISAAC~\citep{shafiee2016isaac} and PRIME~\citep{chi2016prime} exploit this for
+large energy and throughput gains. Near-memory designs instead keep digital
+logic but move it beside storage---Samsung's HBM-PIM embeds programmable compute
+units in an HBM2 stack and raises effective bandwidth for machine-learning
+kernels through bank-level parallelism~\citep{kwon2021hbmpim}. Beyond AI, real
+general-purpose PIM hardware now exists: the UPMEM system places thousands of
+cores inside DRAM and accelerates memory-bound tasks such as database
+scan/filter, graph processing (BFS, PageRank), and
+bioinformatics~\citep{gomezluna2022benchmarking}. The common thread is a high
+data-to-compute ratio. The trade-off is limited precision and device
+variability in analog crossbars, and an immature programming model in
+near-memory systems, so achievable gains are workload-dependent and demand
+careful data mapping~\citep{ielmini2018inmemory}. Figure~\ref{fig:apps}
+summarises where each paradigm is applied.
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=0.92\linewidth]{application_scenarios}
+\end{center}
+\caption{Application landscape. Von Neumann processors serve control-intensive,
+general-purpose workloads; Processing-in-Memory targets data-movement-bound
+workloads such as AI inference and edge analytics, where in-/near-memory
+execution removes most off-chip data traffic.}
+\label{fig:apps}
+\end{figure}
+
+% =====================================================================
+% [P4] Personal Reflections and Conclusions — budget ~350 words
+% =====================================================================
+\section{Personal Reflections and Conclusions}
+\label{sec:conc}
+\textit{[P4 outline (~350 words): 4.1 Key insights --- the Von Neumann model
+will not disappear; PIM solves the data-movement problem, not all of
+computation. 4.2 Trade-offs --- generality vs.\ specialisation, programming
+difficulty vs.\ performance gain. 4.3 Future trends --- heterogeneous
+computing, AI-driven architecture evolution, software ecosystem as the key
+bottleneck. 4.4 Conclusion --- a clear stance, e.g.\ ``future systems will
+likely adopt a hybrid architecture where Von Neumann cores coexist with PIM
+accelerators to balance flexibility and efficiency.'' Add the team's personal
+reflection.]}
+
+% =====================================================================
+% [P3] Optional: brief case study — budget ~130 words  *** REAL ***
+% =====================================================================
+\section{Optional: A Brief Case Study}
+\label{sec:case}
+A single example makes the contrast concrete. Consider a matrix--vector product
+$y = Wx$ with an $N\times N$ weight matrix. On a Von Neumann processor every one
+of the $N^2$ weights must be read from memory and carried across the bus to the
+ALU to perform one multiply--accumulate, so data movement scales as $N^2$ and
+dominates both time and energy. In a ReRAM crossbar the same operation is
+computed in place: the weights are stored as cell conductances and the result is
+obtained in essentially one analog step via Ohm's and Kirchhoff's laws, so the
+$N^2$ weights never move~\citep{shafiee2016isaac,sebastian2020memory}. This one
+kernel captures why PIM wins on data-movement-bound work, while the Von Neumann
+path wins where data is reused little or control flow dominates.
+
+% =====================================================================
+\bibliography{CS2305_submission}
+\bibliographystyle{CS2305_submission}
+
+% =====================================================================
+% [P3] Appendix — does NOT count toward the word budget
+% =====================================================================
+\appendix
+\section{Appendix}
+
+\subsection*{How was the division of labor structured among team members, and how did the team collaborate (i.e., what were the connections between the divided tasks)?}
+Answer: The work was split along the report's logical flow so that each part
+fed the next. Fan Sitong wrote the introduction and the Von Neumann definition
+(Section~\ref{sec:vn}) and built the first PPT segment; Zhang Xiaoyu defined
+Processing-in-Memory (Section~\ref{sec:pim}) and analysed the relationship
+between the two paradigms (Section~\ref{sec:rel}), building directly on the
+bottleneck described above; Chen Yu surveyed the application scenarios and the
+problems each paradigm solves (Section~\ref{sec:app}), added the case study
+(Section~\ref{sec:case}) and the figure, and compiled this appendix;
+You Yining wrote the reflections and conclusions (Section~\ref{sec:conc}),
+prepared the second PPT segment, and delivered the talk. The definitions
+(Fan, Zhang) supplied the vocabulary the applications section (Chen) builds on,
+and the conclusion (You) draws the whole argument together; members
+cross-reviewed adjacent sections to keep terminology and the word budget
+consistent.
+
+\subsection*{Why was this topic chosen? (Share the motivations behind the topic selection, such as interest sparked by in-class knowledge or specific reasons for choosing it over other candidate topics.)}
+Answer: \textit{[Draft from P3's view; each member to add a sentence:] The
+course's treatment of the memory hierarchy and the data-transfer bottleneck
+made the ``memory wall'' feel like a live, unsolved problem rather than a
+textbook fact. Compared with other candidate topics (e.g.\ RISC vs.\ CISC),
+Von Neumann vs.\ PIM pairs a foundational concept every member already
+understood with a genuine research frontier, giving both accessibility and
+technical depth.}
+
+\subsection*{What is the connection between the selected topic/investigation and the course?}
+Answer: The topic sits at the centre of the course. The Von Neumann model, the
+CPU--memory bus, and the fetch--decode--execute cycle are core lecture content,
+and the memory hierarchy (caches, bandwidth, latency) is exactly what the
+``memory wall'' concerns. PIM extends these ideas to a current research
+direction, letting us apply course concepts (bandwidth, locality, parallelism)
+to evaluate a modern architectural shift.
+
+\subsection*{What is the significance of this investigation for your future research/career?}
+Answer: \textit{[Draft for P3; each member should add their own one-line
+perspective:] Studying how energy and bandwidth limits reshape architecture is
+directly relevant to anyone working on AI hardware, systems, or
+energy-efficient computing. The investigation built skills in reading
+architecture literature critically and reasoning about hardware--software
+trade-offs that transfer to future research and engineering work.}
+
+\end{document}
