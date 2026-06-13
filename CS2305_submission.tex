@@ -47,12 +47,17 @@ You Yining \\ Student ID: XXXXXXXX \\ \texttt{x@sjtu.edu.cn}
 
 % [ALL] Abstract — budget ~110 words. Single paragraph.
 \begin{abstract}
-\textit{[Abstract placeholder, written collectively once sections are final.
-One paragraph (~110 words): state the memory-wall problem, contrast the
-classical Von Neumann model (separated processing and memory) with
-Processing-in-Memory (computing where data lives), summarise their
-relationship as an evolutionary response to the bandwidth and energy
-bottleneck, and preview the application and outlook findings.]}
+For more than half a century the Von Neumann architecture---a processor
+separated from memory by a shared bus---has been the foundation of
+general-purpose computing. As workloads turn data-intensive, however, the time
+and energy spent moving data between memory and processor now dominate, a
+limitation known as the \emph{memory wall}. Processing-in-Memory (PIM) responds
+by performing computation inside or beside the memory, where the data already
+resides. This report compares the two paradigms: it defines each, argues that
+PIM is an evolutionary complement rather than a replacement, and surveys where
+each fits---Von Neumann for control-intensive general-purpose work, PIM for
+data-movement-bound tasks such as AI inference and graph and database analytics.
+We conclude that future systems will be hybrid.
 \end{abstract}
 
 % =====================================================================
@@ -95,7 +100,7 @@ Memory stores both instructions and operands, while input/output devices allow
 the system to communicate with the external environment. These components are
 connected through system buses that transfer data, addresses, and control
 signals between the processor, memory, and peripherals
-\citep{hennessy2017computer, stallings2018computer}.
+\citep{hennessy2017computer}.
 
 Although the Von Neumann architecture has supported decades of successful
 computer system design, its separation between computation and storage creates a
@@ -103,7 +108,7 @@ major limitation. Since instructions and data must be repeatedly transferred
 between the processor and memory, system throughput can be constrained by memory
 latency and bandwidth. This limitation is commonly referred to as the
 \textit{Von Neumann bottleneck} or, more broadly, the \textit{memory wall}
-\citep{wulf1995memorywall}. This bottleneck is one of the main motivations for
+\citep{wulf1995memory}. This bottleneck is one of the main motivations for
 exploring alternative architectures such as Processing-in-Memory.
 
 
@@ -111,7 +116,7 @@ exploring alternative architectures such as Processing-in-Memory.
 \subsection{Processing-in-Memory (PIM)}
 \label{sec:pim}
 
-To alleviate the performance ceilings of traditional computing, Processing-in-Memory (PIM) has emerged as an alternative architectural paradigm that fundamentally redefines the relationship between computation and storage. Instead of adhering to a strict compute-centric model, PIM integrates computational capabilities directly inside or adjacent to the memory subsystem \citep{sebastian2020memory_woodhead,mutlu2021primer}. The central philosophy of PIM is to shift from a model of bringing data to computation to one of bringing computation closer to data.
+To alleviate the performance ceilings of traditional computing, Processing-in-Memory (PIM) has emerged as an alternative architectural paradigm that fundamentally redefines the relationship between computation and storage. Instead of adhering to a strict compute-centric model, PIM integrates computational capabilities directly inside or adjacent to the memory subsystem \citep{sebastian2020memory,mutlu2021primer}. The central philosophy of PIM is to shift from a model of bringing data to computation to one of bringing computation closer to data.
 
 PIM architectures fall into two broad categories based on hardware implementation. Near-Memory Computing (NMC) places dedicated processing elements or logic layers in close physical proximity to memory arrays, such as in a logic die beneath a stack of 3D-stacked memory. In-Memory Computing (IMC) performs calculations directly within the memory arrays themselves by exploiting the analogue physical properties of memory devices, enabling computation within structures such as ReRAM crossbars or modified SRAM arrays \citep{ielmini2018inmemory}. The common thread is a shift from a compute-centric to a data-centric approach.
 
@@ -159,7 +164,7 @@ In contrast, PIM distributes computation to the memory. By operating directly on
 
 \subsection{Hybrid Architectures}
 
-Driven by these distinct trade-offs, the cutting edge of modern computer engineering lies in the deployment of hybrid and heterogeneous architectures. Rather than abandoning Von Neumann principles, modern systems employ a cooperative CPU + PIM design framework \citep{yu2024pim_protocol}. In these configurations, a standard Von Neumann processor acts as the primary system host, managing complex control logic, OS scheduling, and general-purpose tasks. When the system encounters heavy, data-bound kernels---such as matrix multiplication loops in neural networks or vector updates in graph traversal---the host CPU offloads these specific operations to the PIM-enabled memory stack or accelerator.
+Driven by these distinct trade-offs, the cutting edge of modern computer engineering lies in the deployment of hybrid and heterogeneous architectures. Rather than abandoning Von Neumann principles, modern systems employ a cooperative CPU + PIM design framework \citep{mutlu2021primer}. In these configurations, a standard Von Neumann processor acts as the primary system host, managing complex control logic, OS scheduling, and general-purpose tasks. When the system encounters heavy, data-bound kernels---such as matrix multiplication loops in neural networks or vector updates in graph traversal---the host CPU offloads these specific operations to the PIM-enabled memory stack or accelerator.
 
 A concrete example is an AI training accelerator that couples an HBM stack, where the logic die at the base implements near-memory processing for weight updates and reduction operations, while a conventional CPU orchestrates the overall training loop. This heterogeneous synergy allows the system to achieve an optimal balance: maintaining the high programmability and mature ecosystem of the Von Neumann model for general applications, while exploiting the high-bandwidth, energy-efficient scaling of PIM to handle the massive datasets of modern computing. The future computing landscape points not toward a single victorious architecture but toward a deep, collaborative integration of both paradigms.
 
@@ -227,15 +232,35 @@ execution removes most off-chip data traffic.}
 % =====================================================================
 \section{Personal Reflections and Conclusions}
 \label{sec:conc}
-\textit{[P4 outline (~350 words): 4.1 Key insights --- the Von Neumann model
-will not disappear; PIM solves the data-movement problem, not all of
-computation. 4.2 Trade-offs --- generality vs.\ specialisation, programming
-difficulty vs.\ performance gain. 4.3 Future trends --- heterogeneous
-computing, AI-driven architecture evolution, software ecosystem as the key
-bottleneck. 4.4 Conclusion --- a clear stance, e.g.\ ``future systems will
-likely adopt a hybrid architecture where Von Neumann cores coexist with PIM
-accelerators to balance flexibility and efficiency.'' Add the team's personal
-reflection.]}
+Our comparison yields a clear insight: the Von Neumann architecture is not
+obsolete, and PIM is not a universal replacement. PIM solves one specific,
+increasingly dominant problem---the cost of moving data---rather than
+computation in general. Where a workload is bound by control flow or reuses
+little data, the classical model's flexibility and mature software ecosystem
+remain decisive; where a workload is bound by data movement, computing in or
+near memory removes the traffic that throttles a conventional system.
+
+The central trade-off is generality versus specialisation. The Von Neumann
+model offers a single, flat memory abstraction and a universal programming
+target, at the price of the memory wall. PIM offers enormous internal bandwidth
+and energy efficiency, at the price of a harder programming model, weaker
+generality, and, for analog in-memory designs, limited precision. Because
+neither dominates across all metrics, real systems must choose per workload.
+
+Looking forward, we expect heterogeneous, data-centric computing to become the
+norm: a Von Neumann host orchestrating general logic while offloading data-bound
+kernels to PIM accelerators, as already seen in commercial HBM-PIM products. The
+harder bottleneck may be software rather than hardware---without standard
+compilers, libraries, and consistency models, PIM's raw hardware gains are
+difficult to realise in practice, and AI's appetite for memory bandwidth will
+keep driving this evolution.
+
+We therefore conclude that the future is not a single victorious architecture
+but a collaborative integration of both: Von Neumann cores and PIM accelerators
+coexisting to balance flexibility and efficiency. For us, the most valuable
+lesson was learning to reason about computing in terms of data movement and
+energy, not merely operation count---a perspective we expect to carry into
+future study and work on AI hardware and systems.
 
 % =====================================================================
 % [P3] Optional: brief case study — budget ~130 words  *** REAL ***
