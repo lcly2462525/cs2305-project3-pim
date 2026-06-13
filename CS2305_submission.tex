@@ -296,13 +296,21 @@ cross-reviewed adjacent sections to keep terminology and the word budget
 consistent.
 
 \subsection*{Why was this topic chosen? (Share the motivations behind the topic selection, such as interest sparked by in-class knowledge or specific reasons for choosing it over other candidate topics.)}
-Answer: \textit{[Draft from P3's view; each member to add a sentence:] The
-course's treatment of the memory hierarchy and the data-transfer bottleneck
-made the ``memory wall'' feel like a live, unsolved problem rather than a
-textbook fact. Compared with other candidate topics (e.g.\ RISC vs.\ CISC),
-Von Neumann vs.\ PIM pairs a foundational concept every member already
-understood with a genuine research frontier, giving both accessibility and
-technical depth.}
+Answer: Honestly, the topic grew out of a question that nagged at us during the
+memory-hierarchy lectures: if caches and wider buses are such well-known fixes,
+why does the ``memory wall'' keep being described as if it were still unsolved?
+The more we read, the more we realised the wall has not been removed---it has
+moved, and today it is the headline problem in AI hardware. Around the time we
+were choosing, there was a lot of discussion about the HBM shortage and reports
+that large-model inference is limited by memory bandwidth rather than raw
+compute, to the point that cloud providers are said to buy GPUs almost for their
+memory. That made the topic feel alive rather than historical. We did look at
+more classic pairs such as RISC vs.\ CISC and GPU vs.\ TPU, but they felt either
+over-discussed or less tied to one sharp problem. Von Neumann vs.\ PIM was
+appealing because it joins the most foundational idea in the course---the
+stored-program machine we all already understood---to a genuine research
+frontier we had to dig into ourselves: a comfortable starting point that still
+led somewhere we did not already know the answer.
 
 \subsection*{What is the connection between the selected topic/investigation and the course?}
 Answer: The topic sits at the centre of the course. The Von Neumann model, the
@@ -313,12 +321,21 @@ direction, letting us apply course concepts (bandwidth, locality, parallelism)
 to evaluate a modern architectural shift.
 
 \subsection*{What is the significance of this investigation for your future research/career?}
-Answer: \textit{[Draft for P3; each member should add their own one-line
-perspective:] Studying how energy and bandwidth limits reshape architecture is
-directly relevant to anyone working on AI hardware, systems, or
-energy-efficient computing. The investigation built skills in reading
-architecture literature critically and reasoning about hardware--software
-trade-offs that transfer to future research and engineering work.}
+Answer: The biggest shift for us was learning to think about computing in terms
+of data movement and energy, not just operation counts. Before this project our
+instinct was to measure performance in FLOPs or clock speed; now our first
+question about any system is ``where does the data live, and how far does it have
+to travel?''---which turns out to be what actually decides cost in modern
+hardware. This feels directly relevant to where computing is heading: with AI
+workloads now bandwidth-bound, and companies such as Samsung and SK~Hynix
+already building processing-in-memory into HBM, the line between ``memory'' and
+``processor'' that we were taught as fixed is genuinely being redrawn. For those
+of us drawn to AI systems, chip design, or energy-efficient high-performance
+computing, that is plausibly the frontier we will end up working on. On a smaller
+but real level, the project also taught us to read primary architecture papers
+critically instead of trusting second-hand summaries, and to reason about
+hardware--software trade-offs rather than hunting for a single ``best'' design---
+habits we expect to carry into later study and work.
 
 
 
